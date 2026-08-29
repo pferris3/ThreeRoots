@@ -1,0 +1,42 @@
+#Paul Ferris
+#Three Roots DB 
+
+DROP DATABASE IF EXISTS `ThreeRoots`;
+CREATE DATABASE IF NOT EXISTS `ThreeRoots`;
+USE `ThreeRoots`;
+
+DROP TABLE IF EXISTS `customer`;
+CREATE TABLE `customer` (
+	`ID` INT NOT NULL AUTO_INCREMENT,
+    `Name` VARCHAR(50) NOT NULL,
+    `Address` VARCHAR(50) DEFAULT NULL,
+    `City` VARCHAR(50) DEFAULT NULL,
+    `State` CHAR(2) DEFAULT NULL,
+    `ZIP` CHAR(5) DEFAULT NULL,
+    `Phone` CHAR(10) DEFAULT NULL,
+    `Email` VARCHAR(50) DEFAULT NULL,
+    PRIMARY KEY (`ID`)
+);
+
+#INSERT
+
+#ADD CUST KEY OR MAKE JOIN TABLE
+DROP TABLE IF EXISTS `plant`;
+CREATE TABLE `plant` (
+	`Species` VARCHAR(50) NOT NULL,
+    `WaterFreqDays` INT DEFAULT NULL,
+    `NeedBugTreat` BOOLEAN DEFAULT NULL,
+    `NeedFertilizer` BOOLEAN DEFAULT NULL,
+    `NeedRepotting` BOOLEAN DEFAULT NULL,
+    `Wetness` INT DEFAULT NULL
+);
+
+DROP TABLE IF EXISTS `appointments`;
+CREATE TABLE `appointments` (
+	`Date` DATE NOT NULL,
+    `Time` TIME(2) NOT NULL,
+    `CustID` INT NOT NULL,
+    `FirstVisit` BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (`CustID`) REFERENCES `customer` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
