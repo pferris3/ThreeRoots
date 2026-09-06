@@ -160,6 +160,7 @@ DELIMITER ;
 
 DELIMITER $$
 
+#WORKS
 CREATE PROCEDURE getCustPlant(custName VARCHAR(50), plantName VARCHAR(50))
 
 BEGIN
@@ -178,12 +179,40 @@ BEGIN
     THEN SET foundPlantID = -1;
     END IF;
 
-	IF foundCustID = -1
+	IF foundCustID = -1 AND foundPlantID != -1
 		THEN SELECT -1;
-    ELSEIF foundPlantID = -1
+    ELSEIF foundPlantID = -1 AND foundCustID != -1
 		THEN SELECT -2;
     ELSEIF foundCustID = -1 AND foundPlantID = -1
 		THEN SELECT -3;
+    ELSE SELECT * FROM `custPlant Inventory`
+    WHERE `Customer` = custName
+    AND `Plant` = plantName;
+    END IF;
+	
+END$$
+
+DELIMITER ;
+
+#CALL getCustPlant('Mark Smith', 'Hibiiscus');
+
+DELIMITER $$
+
+#WORKS
+CREATE PROCEDURE getCustInv(custName VARCHAR(50))
+
+BEGIN
+	DECLARE foundCustID INT;
+    
+    SELECT getCustID(custName) INTO foundCustID;
+    
+    IF foundCustID IS NULL
+    THEN SET foundCustID = -1;
+    END IF;
+    
+
+	IF foundCustID = -1
+		THEN SELECT -1;
     ELSE SELECT * FROM `custPlant Inventory`
     WHERE `Customer` = custName;
     END IF;
@@ -192,4 +221,32 @@ END$$
 
 DELIMITER ;
 
-CALL getCustPlant('Mark Smith', 'Hibiscus');
+#CALL getCustInv('John Doe')
+
+DELIMITER $$
+
+#WORKS
+CREATE PROCEDURE getPlantInv(plantName VARCHAR(50))
+
+BEGIN
+	DECLARE foundPlantID INT;
+    
+    SELECT getPlantID(plantName) INTO foundPlantID;
+    
+    IF foundPlantID IS NULL
+    THEN SET foundPlantID = -1;
+    END IF;
+
+    IF foundPlantID = -1
+		THEN SELECT -1;
+    ELSE SELECT * FROM `custPlant Inventory`
+    WHERE `Plant` = plantName;
+    END IF;
+	
+END$$
+
+DELIMITER ;
+
+#CALL getPlantInv('Babys Breathh')
+
+/*ADD AND DELETE FUNCTIONS*/
