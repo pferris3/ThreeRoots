@@ -196,6 +196,7 @@ DELIMITER ;
 
 #CALL getCustPlant('Mark Smith', 'Hibiiscus');
 
+
 DELIMITER $$
 
 #WORKS
@@ -250,3 +251,78 @@ DELIMITER ;
 #CALL getPlantInv('Babys Breathh')
 
 /*ADD AND DELETE FUNCTIONS*/
+
+DELIMITER $$
+
+CREATE PROCEDURE addPlant(newPlantName VARCHAR(50))
+
+	BEGIN
+		DECLARE currentPlantID INT;
+        
+        SELECT getPlantID(newPlantName) INTO currentPlantID;
+        
+        IF currentPlantID = -1
+        THEN INSERT INTO plant (Species) VALUES (newPlantName);
+        
+        END IF;
+        
+        SELECT getPlantID(newPlantName) AS PlantID;
+	
+    END$$
+
+
+DELIMITER ;
+
+#TEST CALL
+
+DELIMITER $$
+
+CREATE PROCEDURE addCust(newName VARCHAR(50), newAddress VARCHAR(50), newCity VARCHAR(50), newState CHAR(2),
+						newZip CHAR(5), newPhone CHAR(12), newEmail VARCHAR(50))
+
+	BEGIN
+		DECLARE currentCustID INT;
+        
+        SELECT getCustID(newCustName) INTO currentCustID;
+        
+        IF currentCustID = -1
+        THEN INSERT INTO customer (Name, Address, City, State, ZIP, Phone, Email) 
+        VALUES (newName, newAddress, newCity, newState, newZip, newPhone, newEmail);
+        
+        END IF;
+        
+        SELECT getCustID(newCustName) AS CustID;
+	
+    END$$
+
+DELIMITER ;
+
+#TEST CALL
+
+DELIMITER $$
+
+CREATE PROCEDURE addAppt(newDate Date, newTime Time, newCustID INT)
+
+	BEGIN
+        DECLARE foundCustID INT;
+        DECLARE duplicate INT;
+        
+        SELECT count(*) FROM appointments
+        WHERE CustID = foundCustID AND
+        Date = newDate AND
+        Time = newTime
+        INTO duplicate;
+        
+        IF duplicate >= 1
+        THEN INSERT INTO appointments (Date, Time, CustID)
+        VALUES (newDate, newTime, newCustID);
+        
+        END IF;
+        
+        SELECT duplicate AS NewAppt;
+        
+    END$$
+
+DELIMITER ;
+
+#TEST CALL
