@@ -20,14 +20,44 @@ func connect() {
     }
     fmt.Println("Connected to MySQL!")
 
-
-
-}
-
-type Plant struct{
-    
 }
 
 // Object (struct)
 // then
 // DAL (methods)
+
+type Customer struct{
+    id int
+    address string
+    city string
+    state string
+    zip int
+    name string 
+    phone string
+    email string
+}
+
+//CUST DAL
+//put init as create function with DAL???
+
+type Plant struct{
+    id int
+    species string
+}
+
+//PLANT DAL
+//put init as create function with DAL???
+
+
+type CustPlant struct{
+    custID int
+    plantID int
+    quan int
+    bug_treat bool
+    water_freq_days int
+    wetness int
+    fertilizer bool
+    repotting bool
+}
+
+
