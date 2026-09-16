@@ -2,6 +2,7 @@ package threeRoots
 import (
     "database/sql"
     "fmt"
+    "time"
     _ "github.com/go-sql-driver/mysql"
 )
 
@@ -60,4 +61,12 @@ type CustPlant struct{
     repotting bool
 }
 
+
+//CUSTPLANT DAL
+
+type Appointment struct{
+    custID int
+    //EXPLORE TIME LATER ... string maybe???
+    firstVisit bool
+}
 
